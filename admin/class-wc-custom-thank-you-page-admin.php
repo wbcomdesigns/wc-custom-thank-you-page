@@ -40,6 +40,8 @@ class Wc_Custom_Thank_You_Page_Admin {
 	 */
 	private $version;
 
+	private $plugin_settings_tabs;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -51,6 +53,7 @@ class Wc_Custom_Thank_You_Page_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->plugin_settings_tabs = array();
 
 	}
 
@@ -59,7 +62,7 @@ class Wc_Custom_Thank_You_Page_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function wcctp_enqueue_styles() {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -72,8 +75,11 @@ class Wc_Custom_Thank_You_Page_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_style( 'wcctp-font-awesome', plugin_dir_url( __FILE__ ) . 'css/font-awesome.min.css' );
+		wp_enqueue_style( 'wcctp-qtip-css', plugin_dir_url( __FILE__ ) . 'css/jquery.qtip.css' );
+		wp_enqueue_style( 'wcctp-select2-css', plugin_dir_url( __FILE__ ) . 'css/select2.css' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wc-custom-thank-you-page-admin.css', array(), $this->version, 'all' );
+
 
 	}
 
@@ -82,7 +88,7 @@ class Wc_Custom_Thank_You_Page_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function wcctp_enqueue_scripts() {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -95,9 +101,75 @@ class Wc_Custom_Thank_You_Page_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wc-custom-thank-you-page-admin.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( 'wcctp-qtip-js', plugin_dir_url( __FILE__ ) . 'js/jquery.qtip.js' );
+		wp_enqueue_script( 'wcctp-select2-js', plugin_dir_url( __FILE__ ) . 'js/select2.js' );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wc-custom-thank-you-page-admin.js', array( 'jquery' ) );
 	}
+
+	/**
+	 * Actions performed to create a custom sub menu on loading admin_menu
+	 */
+	public function wcctp_add_sub_menu_page() {
+		add_submenu_page( 'woocommerce', __( 'WC Custom Thank You Page Settings', WCCTP_TEXT_DOMAIN ), __( 'Custom Thank You Page', WCCTP_TEXT_DOMAIN ), 'manage_options', $this->plugin_name, array( $this, 'wcctp_admin_settings_page' ) );
+	}
+
+	/**
+	 * Actions performed to create a submenu page content
+	 */
+	public function wcctp_admin_settings_page() {
+		$tab = isset($_GET['tab']) ? $_GET['tab'] : 'wc-custom-thank-you-page';
+		?>
+		<div class="wrap">
+			<h2><?php _e( 'Custom Thank You Page - WooCommerce Orders', WCCTP_TEXT_DOMAIN ); ?></h2>
+			<p><?php _e( 'This plugin will allow the site administrator to setup a custom <strong>WooCommerce Thank You Page</strong> and have a lots of site posts to show.', WCCTP_TEXT_DOMAIN ); ?></p>
+			<?php $this->wcctp_plugin_settings_tabs(); ?>
+			<form action="" method="POST" id="<?php echo $tab;?>-settings-form" enctype="multipart/form-data">
+			<?php do_settings_sections( $tab );?>
+			</form>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Actions performed to create tabs on the sub menu page
+	 */
+	public function wcctp_plugin_settings_tabs() {
+		$current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'wc-custom-thank-you-page';
+		echo '<h2 class="nav-tab-wrapper">';
+		foreach ($this->plugin_settings_tabs as $tab_key => $tab_caption) {
+			$active = $current_tab == $tab_key ? 'nav-tab-active' : '';
+			echo '<a class="nav-tab ' . $active . '" href="?page=' . $this->plugin_name . '&tab=' . $tab_key . '">' . $tab_caption . '</a>';
+		}
+		echo '</h2>';
+	}
+
+	/**
+	 * Actions performed to register general settings tab
+	 */
+	function wcctp_register_general_settings() {
+		$this->plugin_settings_tabs['wc-custom-thank-you-page'] = __( 'General', WCCTP_TEXT_DOMAIN );
+		register_setting('wc-custom-thank-you-page', 'wc-custom-thank-you-page');
+		add_settings_section('wcctp-general-section', ' ', array(&$this, 'wcctp_general_settings_content'), 'wc-custom-thank-you-page');
+	}
+
+	function wcctp_general_settings_content() {
+		if (file_exists(dirname(__FILE__) . '/inc/wcctp-general-settings.php')) {
+			require_once( dirname(__FILE__) . '/inc/wcctp-general-settings.php' );
+		}
+	}
+
+	function wcctp_register_support_settings() {
+		$this->plugin_settings_tabs['wcctp-support'] = __( 'Support', WCCTP_TEXT_DOMAIN );
+		register_setting('wcctp-support', 'wcctp-support');
+		add_settings_section('wcctp-support-section', ' ', array(&$this, 'wcctp_support_settings_content'), 'wcctp-support');
+	}
+
+	function wcctp_support_settings_content() {
+		if (file_exists(dirname(__FILE__) . '/inc/wcctp-support-settings.php')) {
+			require_once( dirname(__FILE__) . '/inc/wcctp-support-settings.php' );
+		}
+	}
+
+	
 
 }

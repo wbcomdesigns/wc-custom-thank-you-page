@@ -72,7 +72,7 @@ class Wc_Custom_Thank_You_Page_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_style( 'wcctp-font-awesome', plugin_dir_url( __FILE__ ) . 'css/font-awesome.min.css' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wc-custom-thank-you-page-public.css', array(), $this->version, 'all' );
 
 	}
@@ -100,4 +100,102 @@ class Wc_Custom_Thank_You_Page_Public {
 
 	}
 
+	/**
+	 * Actions performed to list products on thank you page
+	 * after the order details table
+	 */
+	public function wcctp_thankyou_page_list_products( $order ) {
+		$settings = get_option( 'wcctp_general_settings', true );
+		$thankyou_products = $thankyou_social_share = array();
+		//Listing products
+		if( isset( $settings['thankyou_products'] ) ) {
+			$thankyou_products = $settings['thankyou_products'];
+			if( !empty( $thankyou_products ) ) {
+				$prod_str = '';
+				foreach ( $thankyou_products as $key => $pid ) {
+					$prod_str .= $pid.',';
+				}
+				$prod_str = rtrim( $prod_str, ',' );
+				?>
+				<h2><?php _e( 'You may be interested in...', WCCTP_TEXT_DOMAIN );?></h2>
+				<div class="wcctp-thank-you-products-display">
+					<?php echo do_shortcode( '[products ids="'.$prod_str.'"]' );?>
+				</div>
+				<?php
+			}
+		}
+
+		//Social share your purchase
+		if( isset( $settings['thankyou_social_share'] ) ) {
+			$thankyou_social_share = $settings['thankyou_social_share'];
+			$order_id = $this->wcctp_access_protected( $order, 'id' );
+			?>
+			<h2><?php _e( 'Share your purchase', WCCTP_TEXT_DOMAIN );?></h2>
+			<div class="wcctp-thank-you-social-share-display">
+				<ul class="tabs">
+					<?php if( in_array( 'wcctp-facebook', $thankyou_social_share) ) {?>
+						<li class="tab-link current" data-tab="tab-1">Facebook</li>
+					<?php }?>
+
+					<?php if( in_array( 'wcctp-twitter', $thankyou_social_share) ) {?>
+						<li class="tab-link" data-tab="tab-2">Twitter</li>
+					<?php }?>
+
+					<?php if( in_array( 'wcctp-google-plus', $thankyou_social_share) ) {?>
+						<li class="tab-link" data-tab="tab-3">Google Plus</li>
+					<?php }?>
+				</ul>
+
+				<?php if( in_array( 'wcctp-facebook', $thankyou_social_share) ) {?>
+					<div id="tab-1" class="tab-content current">
+						<textarea rows="8" placeholder="<?php _e( 'Write something about your purchase...', WCCTP_TEXT_DOMAIN );?>" id="wcctp-purchase-share-facebook" class="wcctp-share-content"></textarea>
+						<a href="javascript:void(0);" class="wcctp-share-btn" id="wcctp-share-facebook"><?php _e( 'Share', WCCTP_TEXT_DOMAIN );?></a>
+					</div>
+				<?php }?>
+
+				<?php if( in_array( 'wcctp-twitter', $thankyou_social_share) ) {?>
+					<div id="tab-2" class="tab-content">
+						<textarea rows="8" placeholder="<?php _e( 'Write something about your purchase...', WCCTP_TEXT_DOMAIN );?>" id="wcctp-purchase-tweet-twitter" class="wcctp-share-content"></textarea>
+						<a href="javascript:void(0);" class="wcctp-share-btn" id="wcctp-tweet-twitter"><?php _e( 'Tweet', WCCTP_TEXT_DOMAIN );?></a>
+					</div>
+				<?php }?>
+
+				<?php if( in_array( 'wcctp-google-plus', $thankyou_social_share) ) {?>
+					<div id="tab-3" class="tab-content">
+						<textarea rows="8" placeholder="<?php _e( 'Write something about your purchase...', WCCTP_TEXT_DOMAIN );?>" id="wcctp-purchase-share-google-plus" class="wcctp-share-content"></textarea>
+						<a href="javascript:void(0);" class="wcctp-share-btn" id="wcctp-share-google-plus"><?php _e( 'Share', WCCTP_TEXT_DOMAIN );?></a>
+					</div>
+				<?php }?>
+			</div><!-- container -->
+			<?php
+		}
+	}
+
+	/**
+	 * Actions performed customize the thank you message
+	 */
+	public function wcctp_thankyou_message( $text, $order ) {
+		$settings = get_option( 'wcctp_general_settings', true );
+		$thankyou_logo = $thankyou_message = '';
+		if( isset( $settings['thankyou_logo'] ) ) {
+			$thankyou_logo = $settings['thankyou_logo'];
+		}
+		if( isset( $settings['thankyou_message'] ) ) {
+			$thankyou_message = $settings['thankyou_message'];
+		}
+
+		//Logo
+		$img = '<img class="wcctp-thank-you-logo" src="'.$thankyou_logo.'" /><br />';
+		return $img.$thankyou_message;
+	}
+
+	/**
+	 * Function to access protected value
+	 */
+	function wcctp_access_protected( $obj, $prop ) {
+		$reflection = new ReflectionClass($obj);
+		$property = $reflection->getProperty($prop);
+		$property->setAccessible(true);
+		return $property->getValue($obj);
+	}
 }

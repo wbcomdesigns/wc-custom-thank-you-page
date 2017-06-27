@@ -2,3 +2,19 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+span.wcctp-tooltips {
+    margin-right: 10px;
+    cursor: pointer;
+}
+td.wcctp-tooltips-td {
+    width: 2%;
+}
+td.wcctp-general-settings-elements-td {
+    width: 20%;
+}
+img.wcctp-thank-you-logo-preview{
+	width: 50%;
+}
+#s2id_wcctp-thankyou-products{
+	width: 100%;
+}

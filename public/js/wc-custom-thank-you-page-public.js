@@ -1,32 +1,35 @@
-(function( $ ) {
+jQuery(document).ready(function($){
 	'use strict';
 
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+	//Social Share Tabs
+	$('ul.tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
 
-})( jQuery );
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	});
+
+	//Purchase share on facebook
+	$(document).on('click', '#wcctp-share-facebook', function(){
+		var summary = $('#wcctp-purchase-share-facebook').val();
+		var share_url = 'https://www.facebook.com/sharer.php?description='+summary;
+		window.open( share_url, 500, 500 );
+	});
+
+	//Purchase tweet on twitter
+	$(document).on('click', '#wcctp-tweet-twitter', function(){
+		var summary = $('#wcctp-purchase-tweet-twitter').val();
+		var tweet_url = 'https://twitter.com/intent/tweet?description='+summary;
+		window.open( tweet_url, 500, 500 );
+	});
+
+	//Purchase share on google plus
+	$(document).on('click', '#wcctp-share-google-plus', function(){
+		var summary = $('#wcctp-purchase-share-google-plus').val();
+		var share_url = 'https://plus.google.com/share?description='+summary;
+		window.open( share_url, 500, 500 );
+	});
+});

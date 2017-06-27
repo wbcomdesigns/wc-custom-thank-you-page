@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -15,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       WooCommerce Custom Thank You Page
  * Plugin URI:        http://www.wbcomdesigns.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This plugin creates <strong>custom Thank You page</strong> for <strong>Wooommerce Orders</strong>.
  * Version:           1.0.0
  * Author:            Wbcom Designs
  * Author URI:        http://www.wbcomdesigns.com
@@ -67,9 +66,50 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wc-custom-thank-you-page.p
  * @since    1.0.0
  */
 function run_wc_custom_thank_you_page() {
+	//Define constants
+	if( !defined( 'WCCTP_PLUGIN_PATH' ) ) {
+		define( 'WCCTP_PLUGIN_PATH', plugin_dir_path(__FILE__) );
+	}
+
+	if( !defined( 'WCCTP_PLUGIN_URL' ) ) {
+		define( 'WCCTP_PLUGIN_URL', plugin_dir_url(__FILE__) );
+	}
+
+	if( !defined( 'WCCTP_TEXT_DOMAIN' ) ) {
+		define( 'WCCTP_TEXT_DOMAIN', 'wc-custom-thank-you-page' );
+	}
 
 	$plugin = new Wc_Custom_Thank_You_Page();
 	$plugin->run();
-
 }
-run_wc_custom_thank_you_page();
+
+
+/**
+ * Check plugin requirement on plugins loaded
+ * this plugin requires WooCommerce to be installed and active
+ */
+add_action('plugins_loaded', 'wcctp_plugin_init');
+function wcctp_plugin_init() {
+	$wc_active = in_array('woocommerce/woocommerce.php', get_option('active_plugins'));
+	if ( current_user_can('activate_plugins') && $wc_active !== true ) {
+		add_action('admin_notices', 'wcctp_plugin_admin_notice');
+	} else {
+		run_wc_custom_thank_you_page();
+		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'wcctp_admin_settings_link' );
+	}
+}
+
+function wcctp_plugin_admin_notice() {
+	$wcctp_plugin = __( 'WooCommerce Custom Thank You Page', WCCTP_TEXT_DOMAIN );
+	$wc_plugin = __( 'WooCommerce', WCCTP_TEXT_DOMAIN );
+
+	echo '<div class="error"><p>'
+	. sprintf(__('%1$s requires %2$s to function correctly. %1$s is uneffective now.', WCCTP_TEXT_DOMAIN), '<strong>' . esc_html($wcctp_plugin) . '</strong>', '<strong>' . esc_html($wc_plugin) . '</strong>')
+	. '</p></div>';
+	if (isset($_GET['activate'])) unset($_GET['activate']);
+}
+
+function wcctp_admin_settings_link( $links ) {
+	$settings_link = array( '<a href="'.admin_url('admin.php?page=wc-custom-thank-you-page-settings').'">'.__( 'Settings', WCCTP_TEXT_DOMAIN ).'</a>' );
+	return array_merge( $links, $settings_link );
+}

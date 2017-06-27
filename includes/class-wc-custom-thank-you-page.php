@@ -151,9 +151,15 @@ class Wc_Custom_Thank_You_Page {
 
 		$plugin_admin = new Wc_Custom_Thank_You_Page_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		if( stripos( $_SERVER['REQUEST_URI'], 'wc-custom-thank-you-page' ) !== false ) {
+			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'wcctp_enqueue_styles' );
+			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'wcctp_enqueue_scripts' );
+		}
+		
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wcctp_add_sub_menu_page' );
 
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'wcctp_register_general_settings' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'wcctp_register_support_settings' );
 	}
 
 	/**
@@ -170,6 +176,8 @@ class Wc_Custom_Thank_You_Page {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'woocommerce_thankyou_order_received_text', $plugin_public, 'wcctp_thankyou_message', 10, 2 );
+		$this->loader->add_action( 'woocommerce_order_details_after_order_table', $plugin_public, 'wcctp_thankyou_page_list_products', 10, 1 );
 	}
 
 	/**
