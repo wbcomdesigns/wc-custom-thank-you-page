@@ -9,8 +9,6 @@
  	width: 50%;
 }
 .wcctp-thank-you-products-display {
- 	border: 1px solid rgba(0,0,0,.1);
- 	border-radius: 5px;
  	padding: 10px;
 }
 
@@ -52,4 +50,7 @@ ul.tabs li.current{
 /************** TAB CSS **************/
 textarea.wcctp-share-content {
     width: 95%;
+}
+.woocommerce-order-received ul.products li{
+    width: 100% !important;
 }

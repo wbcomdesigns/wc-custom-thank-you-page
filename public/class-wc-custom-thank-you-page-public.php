@@ -73,6 +73,7 @@ class Wc_Custom_Thank_You_Page_Public {
 		 * class.
 		 */
 		wp_enqueue_style( 'wcctp-font-awesome', plugin_dir_url( __FILE__ ) . 'css/font-awesome.min.css' );
+		wp_enqueue_style( 'wcctp-bxslider-css', plugin_dir_url( __FILE__ ) . 'css/jquery.bxslider.css' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wc-custom-thank-you-page-public.css', array(), $this->version, 'all' );
 
 	}
@@ -95,9 +96,16 @@ class Wc_Custom_Thank_You_Page_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_script( 'wcctp-bxslider-js', plugin_dir_url( __FILE__ ) . 'js/jquery.bxslider.js', array( 'jquery' ) );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wc-custom-thank-you-page-public.js', array( 'jquery' ), $this->version, false );
-
+		
+		wp_localize_script(
+			$this->plugin_name,
+			'wcctp_front_js_object',
+			array(
+				'ajaxurl' => admin_url('admin-ajax.php')
+			)
+		);
 	}
 
 	/**
@@ -111,15 +119,12 @@ class Wc_Custom_Thank_You_Page_Public {
 		if( isset( $settings['thankyou_products'] ) ) {
 			$thankyou_products = $settings['thankyou_products'];
 			if( !empty( $thankyou_products ) ) {
-				$prod_str = '';
-				foreach ( $thankyou_products as $key => $pid ) {
-					$prod_str .= $pid.',';
-				}
-				$prod_str = rtrim( $prod_str, ',' );
 				?>
 				<h2><?php _e( 'You may be interested in...', WCCTP_TEXT_DOMAIN );?></h2>
 				<div class="wcctp-thank-you-products-display">
-					<?php echo do_shortcode( '[products ids="'.$prod_str.'"]' );?>
+					<?php foreach ( $thankyou_products as $key => $pid ) {?>
+						<?php echo do_shortcode( '[product id="'.$pid.'"]' );?>
+					<?php }?>
 				</div>
 				<?php
 			}

@@ -32,4 +32,19 @@ jQuery(document).ready(function($){
 		var share_url = 'https://plus.google.com/share?description='+summary;
 		window.open( share_url, 500, 500 );
 	});
+
+	$('.wcctp-thank-you-products-display').bxSlider({
+		mode: 'horizontal',
+		moveSlides: 1,
+		slideMargin: 10,
+		infiniteLoop: true,
+		slideWidth: 660,
+		minSlides: 4,
+		maxSlides: 99999,
+		speed: 800,
+		hideControlOnEnd: true,
+		auto: true,
+		controls: true,
+		pager: false,
+	});
 });
