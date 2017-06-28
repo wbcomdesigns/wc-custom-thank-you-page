@@ -22,14 +22,14 @@ jQuery(document).ready(function($){
 	//Purchase tweet on twitter
 	$(document).on('click', '#wcctp-tweet-twitter', function(){
 		var summary = $('#wcctp-purchase-tweet-twitter').val();
-		var tweet_url = 'https://twitter.com/intent/tweet?description='+summary;
+		var tweet_url = 'https://twitter.com/intent/tweet?text='+summary;
 		window.open( tweet_url, 500, 500 );
 	});
 
 	//Purchase share on google plus
 	$(document).on('click', '#wcctp-share-google-plus', function(){
 		var summary = $('#wcctp-purchase-share-google-plus').val();
-		var share_url = 'https://plus.google.com/share?description='+summary;
+		var share_url = 'https://plus.google.com/share?text='+summary;
 		window.open( share_url, 500, 500 );
 	});
 

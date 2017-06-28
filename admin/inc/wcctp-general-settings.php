@@ -7,14 +7,21 @@ if( isset( $_POST['wcctp_submit_general_settings'] ) && wp_verify_nonce( $_POST[
 	$settings_validations_errors = $admin_settings = array();
 
 	$target_dir = $upload_dir['path'];
-	$target_file = $target_dir.'/'.basename($_FILES["wcctp_thankyou_logo"]["name"]);
 
 	$uploaded_file_url = '';
-	if (move_uploaded_file($_FILES["wcctp_thankyou_logo"]["tmp_name"], $target_file)) {
-		$uploaded_file_url = $upload_dir['url'].'/'.basename( $_FILES["wcctp_thankyou_logo"]["name"]);
+	if( !empty( $_FILES["wcctp_thankyou_logo"]["name"] ) ) {
+		$target_file = $target_dir.'/'.basename($_FILES["wcctp_thankyou_logo"]["name"]);
+
+		if (move_uploaded_file($_FILES["wcctp_thankyou_logo"]["tmp_name"], $target_file)) {
+			$uploaded_file_url = $upload_dir['url'].'/'.basename( $_FILES["wcctp_thankyou_logo"]["name"]);
+		} else {
+			$settings_validations_errors[] = 'The logo was not uploaded due to some error.';
+		}
 	} else {
-		$settings_validations_errors[] = 'The logo was not uploaded due to some error.';
+		$settings = get_option( 'wcctp_general_settings', true );
+		$uploaded_file_url = $settings['thankyou_logo'];
 	}
+	
 
 	$admin_settings['thankyou_logo'] = $uploaded_file_url;
 	$admin_settings['thankyou_message'] = sanitize_text_field( $_POST['wcctp_thankyou_message'] );
@@ -37,14 +44,15 @@ if( isset( $_POST['wcctp_submit_general_settings'] ) && wp_verify_nonce( $_POST[
 		}
 		$err_msg .= "</div>";
 		echo $err_msg;
-	} else {
-		// echo '<pre>'; print_r( $admin_settings ); die;
-		update_option( 'wcctp_general_settings', $admin_settings );
-		$success_msg = "<div class='notice updated is-dismissible' id='message'>";
-		$success_msg .= "<p>".__( 'Settings Saved.', WCCTP_TEXT_DOMAIN )."</p>";
-		$success_msg .= "</div>";
-		echo $success_msg;
 	}
+
+	// echo '<pre>'; print_r( $admin_settings ); die;
+	update_option( 'wcctp_general_settings', $admin_settings );
+	$success_msg = "<div class='notice updated is-dismissible' id='message'>";
+	$success_msg .= "<p>".__( 'Settings Saved.', WCCTP_TEXT_DOMAIN )."</p>";
+	$success_msg .= "</div>";
+	echo $success_msg;
+	
 }
 
 //Social websites
@@ -63,14 +71,15 @@ $args = array(
 	'order'				=> 'ASC'
 );
 $woo_products = get_posts( $args );
-// echo '<pre>'; print_r( $woo_products ); die;
 
 //Retrieve Settings
 $settings = get_option( 'wcctp_general_settings', true );
 $thankyou_logo = $thankyou_message = '';
 $thankyou_products = $thankyou_social_share = array();
+$logo_already_uploaded = 0;
 if( isset( $settings['thankyou_logo'] ) ) {
 	$thankyou_logo = $settings['thankyou_logo'];
+	$logo_already_uploaded = 1;
 }
 
 if( isset( $settings['thankyou_message'] ) ) {
@@ -96,6 +105,7 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 			</td>
 			<td class="wcctp-general-settings-elements-td">
 				<input name="wcctp_thankyou_logo" type="file">
+				<input type="hidden" name="wcctp_logo_already_uploaded" value="<?php echo $logo_already_uploaded;?>">
 			</td>
 			<td>
 				<?php 
