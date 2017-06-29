@@ -104,6 +104,14 @@ class Wc_Custom_Thank_You_Page_Admin {
 		wp_enqueue_script( 'wcctp-qtip-js', plugin_dir_url( __FILE__ ) . 'js/jquery.qtip.js' );
 		wp_enqueue_script( 'wcctp-select2-js', plugin_dir_url( __FILE__ ) . 'js/select2.js' );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wc-custom-thank-you-page-admin.js', array( 'jquery' ) );
+
+		wp_localize_script(
+			$this->plugin_name,
+			'wcctp_admin_js_object',
+			array(
+				'ajaxurl' => admin_url('admin-ajax.php')
+			)
+		);
 	}
 
 	/**
@@ -146,30 +154,44 @@ class Wc_Custom_Thank_You_Page_Admin {
 	/**
 	 * Actions performed to register general settings tab
 	 */
-	function wcctp_register_general_settings() {
+	public function wcctp_register_general_settings() {
 		$this->plugin_settings_tabs['wc-custom-thank-you-page'] = __( 'General', WCCTP_TEXT_DOMAIN );
 		register_setting('wc-custom-thank-you-page', 'wc-custom-thank-you-page');
 		add_settings_section('wcctp-general-section', ' ', array(&$this, 'wcctp_general_settings_content'), 'wc-custom-thank-you-page');
 	}
 
-	function wcctp_general_settings_content() {
+	public function wcctp_general_settings_content() {
 		if (file_exists(dirname(__FILE__) . '/inc/wcctp-general-settings.php')) {
 			require_once( dirname(__FILE__) . '/inc/wcctp-general-settings.php' );
 		}
 	}
 
-	function wcctp_register_support_settings() {
+	public function wcctp_register_support_settings() {
 		$this->plugin_settings_tabs['wcctp-support'] = __( 'Support', WCCTP_TEXT_DOMAIN );
 		register_setting('wcctp-support', 'wcctp-support');
 		add_settings_section('wcctp-support-section', ' ', array(&$this, 'wcctp_support_settings_content'), 'wcctp-support');
 	}
 
-	function wcctp_support_settings_content() {
+	public function wcctp_support_settings_content() {
 		if (file_exists(dirname(__FILE__) . '/inc/wcctp-support-settings.php')) {
 			require_once( dirname(__FILE__) . '/inc/wcctp-support-settings.php' );
 		}
 	}
 
-	
-
+	/**
+	 * Serve the ajax call for removing the thank you logo.
+	 *
+	 * @since     1.0.0
+	 */
+	public function wcctp_remove_thankyou_logo() {
+		if( isset( $_POST['action'] ) && $_POST['action'] === 'wcctp_remove_thankyou_logo' ) {
+			$settings = get_option( 'wcctp_general_settings', true );
+			if( array_key_exists( 'thankyou_logo', $settings ) ) {
+				unset( $settings['thankyou_logo'] );
+			}
+			update_option( 'wcctp_general_settings', $settings );
+			echo 'wcctp-logo-removed-successfully';
+			die;
+		}
+	}
 }

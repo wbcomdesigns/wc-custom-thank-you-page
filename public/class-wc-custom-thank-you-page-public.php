@@ -197,7 +197,7 @@ class Wc_Custom_Thank_You_Page_Public {
 	/**
 	 * Function to access protected value
 	 */
-	function wcctp_access_protected( $obj, $prop ) {
+	public function wcctp_access_protected( $obj, $prop ) {
 		$reflection = new ReflectionClass($obj);
 		$property = $reflection->getProperty($prop);
 		$property->setAccessible(true);

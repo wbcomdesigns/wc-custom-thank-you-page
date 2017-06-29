@@ -18,3 +18,64 @@ img.wcctp-thank-you-logo-preview{
 #s2id_wcctp-thankyou-products{
 	width: 100%;
 }
+
+.wcctp-adming-setting{
+	float: left;
+    width: 90%;
+}
+button.wcctp-accordion {
+    background-color: hsl(0, 0%, 87%);
+    border: medium none;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    color: hsl(0, 0%, 27%);
+    cursor: pointer;
+    font-size: 15px;
+    margin: 0 5%;
+    outline: medium none;
+    padding: 15px 20px;
+    text-align: left;
+    transition: all 0.4s ease 0s;
+    width: 90%;
+}
+button.wcctp-accordion.active, button.wcctp-accordion:hover {
+  background-color: hsl(207, 90%, 54%);
+  color:white;
+}
+div.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  margin:0px 5%;
+}
+button.wcctp-accordion::after {
+  color: hsl(0, 0%, 47%);
+  content: "+";
+  float: right;
+  font-size: 13px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+button.wcctp-accordion::after:hover {
+  color: white;
+}
+button.wcctp-accordion.active::after {
+  content: "−";
+  color:white;
+}
+.wcctp-admin-row{
+  clear: both;  
+  overflow: hidden;
+  padding-bottom: 5px;
+}
+.wcctp-preview-logo-box{
+  width: auto;
+}
+.wcctp-remove-logo{
+  font-size: 24px;
+  color: red;
+  cursor: pointer;
+  position: absolute;
+}

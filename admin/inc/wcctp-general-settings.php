@@ -46,7 +46,6 @@ if( isset( $_POST['wcctp_submit_general_settings'] ) && wp_verify_nonce( $_POST[
 		echo $err_msg;
 	}
 
-	// echo '<pre>'; print_r( $admin_settings ); die;
 	update_option( 'wcctp_general_settings', $admin_settings );
 	$success_msg = "<div class='notice updated is-dismissible' id='message'>";
 	$success_msg .= "<p>".__( 'Settings Saved.', WCCTP_TEXT_DOMAIN )."</p>";
@@ -91,8 +90,6 @@ if( isset( $settings['thankyou_products'] ) ) {
 if( isset( $settings['thankyou_social_share'] ) ) {
 	$thankyou_social_share = $settings['thankyou_social_share'];
 }
-
-// echo '<pre>'; print_r( $thankyou_social_share ); die;
 ?>
 <table class="form-table">
 	<tbody>
@@ -111,8 +108,12 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 				<?php 
 				if( isset( $settings['thankyou_logo'] ) ) {
 					$thankyou_logo = $settings['thankyou_logo'];
+
+					echo '<div class="wcctp-preview-logo-box">';
+					echo '<img class="wcctp-thank-you-logo-preview" src="'.$thankyou_logo.'" />';
+					echo '<span class="wcctp-remove-logo"><i class="fa fa-trash-o" aria-hidden="true"></i></span>';
+					echo '</div>';
 				}
-				echo '<img class="wcctp-thank-you-logo-preview" src="'.$thankyou_logo.'" />';
 				?>
 			</td>
 		</tr>
