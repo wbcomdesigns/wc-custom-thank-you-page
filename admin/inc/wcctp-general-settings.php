@@ -19,7 +19,9 @@ if( isset( $_POST['wcctp_submit_general_settings'] ) && wp_verify_nonce( $_POST[
 		}
 	} else {
 		$settings = get_option( 'wcctp_general_settings', true );
-		$uploaded_file_url = $settings['thankyou_logo'];
+		if( isset( $settings['thankyou_logo'] ) ) {
+			$uploaded_file_url = $settings['thankyou_logo'];
+		}
 	}
 	
 
