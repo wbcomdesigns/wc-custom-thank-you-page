@@ -29,6 +29,10 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+if( !defined( 'WCCTP_TEXT_DOMAIN' ) ) {
+	define( 'WCCTP_TEXT_DOMAIN', 'wc-custom-thank-you-page' );
+}
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-wc-custom-thank-you-page-activator.php
@@ -75,10 +79,6 @@ function run_wc_custom_thank_you_page() {
 		define( 'WCCTP_PLUGIN_URL', plugin_dir_url(__FILE__) );
 	}
 
-	if( !defined( 'WCCTP_TEXT_DOMAIN' ) ) {
-		define( 'WCCTP_TEXT_DOMAIN', 'wc-custom-thank-you-page' );
-	}
-
 	$plugin = new Wc_Custom_Thank_You_Page();
 	$plugin->run();
 }
@@ -110,6 +110,6 @@ function wcctp_plugin_admin_notice() {
 }
 
 function wcctp_admin_settings_link( $links ) {
-	$settings_link = array( '<a href="'.admin_url('admin.php?page=wc-custom-thank-you-page-settings').'">'.__( 'Settings', WCCTP_TEXT_DOMAIN ).'</a>' );
+	$settings_link = array( '<a href="'.admin_url('admin.php?page=wc-custom-thank-you-page').'">'.__( 'Settings', WCCTP_TEXT_DOMAIN ).'</a>' );
 	return array_merge( $links, $settings_link );
 }
