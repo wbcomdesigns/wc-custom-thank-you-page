@@ -5,9 +5,6 @@
 .woocommerce-order-received .entry-header{
  	display: none;
 }
-.wcctp-thank-you-logo{
- 	width: 50%;
-}
 .wcctp-thank-you-products-display {
  	padding: 10px;
 }

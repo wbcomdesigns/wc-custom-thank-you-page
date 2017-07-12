@@ -181,20 +181,13 @@ class Wc_Custom_Thank_You_Page_Public {
 	 */
 	public function wcctp_thankyou_message( $text, $order ) {
 		$settings = get_option( 'wcctp_general_settings', true );
-		$thankyou_logo = $res = '';
 		$thankyou_message = $text;
-		if( !empty( $settings['thankyou_logo'] ) ) {
-			$thankyou_logo = $settings['thankyou_logo'];
-		}
+		
 		if( !empty( $settings['thankyou_message'] ) ) {
 			$thankyou_message = $settings['thankyou_message'];
 		}
 
-		if( $thankyou_logo != '' ) {
-			$res .= '<img class="wcctp-thank-you-logo" src="'.$thankyou_logo.'" /><br />';
-		}
-
-		$res .= $thankyou_message;
+		$res = $thankyou_message;
 		return $res;
 	}
 

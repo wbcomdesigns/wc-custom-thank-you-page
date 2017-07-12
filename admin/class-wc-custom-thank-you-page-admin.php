@@ -177,21 +177,4 @@ class Wc_Custom_Thank_You_Page_Admin {
 			require_once( dirname(__FILE__) . '/inc/wcctp-support-settings.php' );
 		}
 	}
-
-	/**
-	 * Serve the ajax call for removing the thank you logo.
-	 *
-	 * @since     1.0.0
-	 */
-	public function wcctp_remove_thankyou_logo() {
-		if( isset( $_POST['action'] ) && $_POST['action'] === 'wcctp_remove_thankyou_logo' ) {
-			$settings = get_option( 'wcctp_general_settings', true );
-			if( array_key_exists( 'thankyou_logo', $settings ) ) {
-				unset( $settings['thankyou_logo'] );
-			}
-			update_option( 'wcctp_general_settings', $settings );
-			echo 'wcctp-logo-removed-successfully';
-			die;
-		}
-	}
 }

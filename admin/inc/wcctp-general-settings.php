@@ -3,30 +3,10 @@ if( !defined('ABSPATH') ) exit; //Exit if accessed firectly.
 
 //Save general settings
 if( isset( $_POST['wcctp_submit_general_settings'] ) && wp_verify_nonce( $_POST['wcctp-general-settings-nonce'], 'wcctp' ) ) {
-	$upload_dir = wp_upload_dir();
+
 	$settings_validations_errors = $admin_settings = array();
 
-	$target_dir = $upload_dir['path'];
-
-	$uploaded_file_url = '';
-	if( !empty( $_FILES["wcctp_thankyou_logo"]["name"] ) ) {
-		$target_file = $target_dir.'/'.basename($_FILES["wcctp_thankyou_logo"]["name"]);
-
-		if (move_uploaded_file($_FILES["wcctp_thankyou_logo"]["tmp_name"], $target_file)) {
-			$uploaded_file_url = $upload_dir['url'].'/'.basename( $_FILES["wcctp_thankyou_logo"]["name"]);
-		} else {
-			$settings_validations_errors[] = 'The logo was not uploaded due to some error.';
-		}
-	} else {
-		$settings = get_option( 'wcctp_general_settings', true );
-		if( isset( $settings['thankyou_logo'] ) ) {
-			$uploaded_file_url = $settings['thankyou_logo'];
-		}
-	}
-	
-
-	$admin_settings['thankyou_logo'] = $uploaded_file_url;
-	$admin_settings['thankyou_message'] = sanitize_text_field( $_POST['wcctp_thankyou_message'] );
+	$admin_settings['thankyou_message'] = stripslashes(wp_filter_post_kses(addslashes($_POST['wcctp_thankyou_message'])));
 
 	if( isset( $_POST['wcctp_thankyou_products'] ) ) {
 		$admin_settings['thankyou_products'] = $_POST['wcctp_thankyou_products'];
@@ -75,13 +55,8 @@ $woo_products = get_posts( $args );
 
 //Retrieve Settings
 $settings = get_option( 'wcctp_general_settings', true );
-$thankyou_logo = $thankyou_message = '';
+$thankyou_message = '';
 $thankyou_products = $thankyou_social_share = array();
-$logo_already_uploaded = 0;
-if( isset( $settings['thankyou_logo'] ) ) {
-	$thankyou_logo = $settings['thankyou_logo'];
-	$logo_already_uploaded = 1;
-}
 
 if( isset( $settings['thankyou_message'] ) ) {
 	$thankyou_message = $settings['thankyou_message'];
@@ -93,33 +68,8 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 	$thankyou_social_share = $settings['thankyou_social_share'];
 }
 ?>
-<table class="form-table">
+<table class="form-table wcctp-admin-page-table">
 	<tbody>
-		<tr>
-			<th scope="row"><label for="thank-you-logo"><?php _e( 'Thank You Logo', WCCTP_TEXT_DOMAIN );?></label></th>
-			<td class="wcctp-tooltips-td">
-				<span data-tip="<?php _e( 'This logo will appear before the order details', WCCTP_TEXT_DOMAIN );?>" class="wcctp-tooltips">
-					<i class="fa fa-info-circle" aria-hidden="true"></i>
-				</span>
-			</td>
-			<td class="wcctp-general-settings-elements-td">
-				<input name="wcctp_thankyou_logo" type="file">
-				<input type="hidden" name="wcctp_logo_already_uploaded" value="<?php echo $logo_already_uploaded;?>">
-			</td>
-			<td>
-				<?php 
-				if( isset( $settings['thankyou_logo'] ) ) {
-					$thankyou_logo = $settings['thankyou_logo'];
-
-					echo '<div class="wcctp-preview-logo-box">';
-					echo '<img class="wcctp-thank-you-logo-preview" src="'.$thankyou_logo.'" />';
-					echo '<span class="wcctp-remove-logo"><i class="fa fa-trash-o" aria-hidden="true"></i></span>';
-					echo '</div>';
-				}
-				?>
-			</td>
-		</tr>
-
 		<tr>
 			<th scope="row"><label for="thank-you-message"><?php _e( 'Customize Thank You Message', WCCTP_TEXT_DOMAIN );?></label></th>
 			<td class="wcctp-tooltips-td">
@@ -128,7 +78,8 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 				</span>
 			</td>
 			<td class="wcctp-general-settings-elements-td">
-				<textarea name="wcctp_thankyou_message" rows="5" cols="50" placeholder="<?php _e( 'Message', WCCTP_TEXT_DOMAIN );?>"><?php echo $thankyou_message;?></textarea>
+
+			<?php $content = $thankyou_message; wp_editor( $content, 'wcctp_thankyou_message', $settings = array('textarea_rows'=>'8') );?>
 			</td>
 		</tr>
 

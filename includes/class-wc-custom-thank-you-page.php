@@ -159,10 +159,6 @@ class Wc_Custom_Thank_You_Page {
 
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'wcctp_register_general_settings' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'wcctp_register_support_settings' );
-
-
-		$this->loader->add_action( 'wp_ajax_wcctp_remove_thankyou_logo', $plugin_admin, 'wcctp_remove_thankyou_logo' );
-		$this->loader->add_action( 'wp_ajax_nopriv_wcctp_remove_thankyou_logo', $plugin_admin, 'wcctp_remove_thankyou_logo' );
 	}
 
 	/**

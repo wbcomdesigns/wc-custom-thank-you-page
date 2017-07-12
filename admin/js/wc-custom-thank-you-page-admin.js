@@ -35,21 +35,4 @@ jQuery(document).ready(function($){
     $(document).on('click', '.wcctp-accordion', function(){
         return false;
     });
-
-    //Remove the logo
-    $(document).on('click', '.wcctp-remove-logo', function(){
-        var data = {
-            'action' : 'wcctp_remove_thankyou_logo'
-        }
-        $.ajax({
-            url: wcctp_admin_js_object.ajaxurl,
-            type: 'POST',
-            data: data,
-            success: function( response ) {
-                if( response == 'wcctp-logo-removed-successfully' ) {
-                    $('.wcctp-preview-logo-box').html( '<p style="color: green;">Thank You Logo Is Removed!</p>' );
-                }
-            },
-        });
-    });
 });
