@@ -51,3 +51,25 @@ textarea.wcctp-share-content {
 .woocommerce-order-received ul.products li{
     width: 100% !important;
 }
+
+.wcctp-share-btn{
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #0085ba;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
+  cursor: pointer;
+  margin-top: 7px;
+  width:70px;
+  text-decoration:none!important;
+}
+.wcctp-share-btn:hover{
+    opacity:0.7;
+    color:#ffffff;
+}
+.wcctp-thankyou-four-product-view .woocommerce ul.products li.product, .wcctp-thankyou-four-product-view .woocommerce-page ul.products li.product{
+  width:22.05%!important;
+}

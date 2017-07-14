@@ -119,6 +119,8 @@ class Wc_Custom_Thank_You_Page_Public {
 		if( isset( $settings['thankyou_products'] ) ) {
 			$thankyou_products = $settings['thankyou_products'];
 			if( !empty( $thankyou_products ) ) {
+				$tq_prod_numbr = count($thankyou_products);
+				if($tq_prod_numbr>4){
 				?>
 				<h2><?php _e( 'You may be interested in...', WCCTP_TEXT_DOMAIN );?></h2>
 				<div class="wcctp-thank-you-products-display">
@@ -127,6 +129,18 @@ class Wc_Custom_Thank_You_Page_Public {
 					<?php }?>
 				</div>
 				<?php
+				}else{?>
+				<h2><?php _e( 'You may be interested in...', WCCTP_TEXT_DOMAIN );?></h2>
+				<div class="wcctp-thankyou-four-product-view">
+				<?php $prod_str = '';
+					  foreach ( $thankyou_products as $key => $pid ) {
+						$prod_str .= $pid.',';
+				      }
+				 	  $prod_str = rtrim( $prod_str, "," );
+				?>
+				<?php echo do_shortcode( '[products ids="'.$prod_str.'"]' );?>
+				</div>
+				<?php }
 			}
 		}
 
@@ -184,7 +198,7 @@ class Wc_Custom_Thank_You_Page_Public {
 		$thankyou_message = $text;
 		
 		if( !empty( $settings['thankyou_message'] ) ) {
-			$thankyou_message = $settings['thankyou_message'];
+			$thankyou_message = nl2br($settings['thankyou_message']);
 		}
 
 		$res = $thankyou_message;
