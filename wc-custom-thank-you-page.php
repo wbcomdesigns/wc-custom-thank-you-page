@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       WooCommerce Custom Thank You Page
  * Plugin URI:        http://www.wbcomdesigns.com
- * Description:       This plugin creates <strong>custom Thank You page</strong> for <strong>Wooommerce Orders</strong>.
+ * Description:       This plugin creates <strong>custom Thank You page</strong> for <strong>WooCommerce Orders</strong>.
  * Version:           1.0.0
  * Author:            Wbcom Designs
  * Author URI:        http://www.wbcomdesigns.com
