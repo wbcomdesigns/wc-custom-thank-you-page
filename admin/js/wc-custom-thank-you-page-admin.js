@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
 	'use strict';
     $('#wcctp-thankyou-products').selectize({
-        placeholder     : 'Select products',
+        placeholder     : wcctp_admin_js_object.products_select_placeholder,
         plugins         : ['remove_button'],
     });
 

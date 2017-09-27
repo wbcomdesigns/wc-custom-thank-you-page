@@ -78,14 +78,15 @@ class Wc_Custom_Thank_You_Page_Admin {
 	 */
 	public function wcctp_enqueue_scripts() {
 		if( strpos( $_SERVER['REQUEST_URI'], $this->plugin_name ) !== false ) {
-			wp_enqueue_script( $this->plugin_name.'-selectize', WCCTP_PLUGIN_URL . 'js/selectize.min.js' );
-			wp_enqueue_script( $this->plugin_name, WCCTP_PLUGIN_URL . 'js/wc-custom-thank-you-page-admin.js', array( 'jquery' ) );
+			wp_enqueue_script( $this->plugin_name.'-selectize', WCCTP_PLUGIN_URL . 'admin/js/selectize.min.js' );
+			wp_enqueue_script( $this->plugin_name, WCCTP_PLUGIN_URL . 'admin/js/wc-custom-thank-you-page-admin.js', array( 'jquery' ) );
 
 			wp_localize_script(
 				$this->plugin_name,
 				'wcctp_admin_js_object',
 				array(
-					'ajaxurl' => admin_url('admin-ajax.php')
+					'ajaxurl' => admin_url('admin-ajax.php'),
+					'products_select_placeholder' => __( 'Select Products', WCCTP_TEXT_DOMAIN )
 				)
 			);
 		}
@@ -105,7 +106,14 @@ class Wc_Custom_Thank_You_Page_Admin {
 		$tab = isset($_GET['tab']) ? $_GET['tab'] : 'wc-custom-thank-you-page';
 		?>
 		<div class="wrap">
-			<h2><?php _e( 'WooCommerce Custom Thank You Page', WCCTP_TEXT_DOMAIN ); ?></h2>
+			<div class="wcctp-header">
+				<div class="wcctp-extra-actions">
+					<button type="button" class="button button-secondary" onclick="window.open('https://wbcomdesigns.com/contact/', '_blank');"><i class="fa fa-envelope" aria-hidden="true"></i> <?php _e( 'Email Support', WCCTP_TEXT_DOMAIN )?></button>
+					<button disabled type="button" class="button button-secondary" onclick="window.open('', '_blank');"><i class="fa fa-file" aria-hidden="true"></i> <?php _e( 'User Manual', WCCTP_TEXT_DOMAIN )?></button>
+					<button disabled type="button" class="button button-secondary" onclick="window.open('', '_blank');"><i class="fa fa-star" aria-hidden="true"></i> <?php _e( 'Rate Us on WordPress.org', WCCTP_TEXT_DOMAIN )?></button>
+				</div>
+				<h2 class="wcctp-plugin-heading"><?php _e( 'WooCommerce Custom Thank You Page', WCCTP_TEXT_DOMAIN );?></h2>
+			</div>
 			<?php $this->wcctp_plugin_settings_tabs(); ?>
 			<?php do_settings_sections( $tab );?>
 		</div>
