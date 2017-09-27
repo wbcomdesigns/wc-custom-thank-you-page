@@ -72,24 +72,14 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 	<tbody>
 		<tr>
 			<th scope="row"><label for="thank-you-message"><?php _e( 'Customize Thank You Message', WCCTP_TEXT_DOMAIN );?></label></th>
-			<td class="wcctp-tooltips-td">
-				<span data-tip="<?php _e( 'This message will appear below the logo that you upload above.', WCCTP_TEXT_DOMAIN );?>" class="wcctp-tooltips">
-					<i class="fa fa-info-circle" aria-hidden="true"></i>
-				</span>
-			</td>
 			<td class="wcctp-general-settings-elements-td">
-
-			<?php $content = $thankyou_message; wp_editor( $content, 'wcctp_thankyou_message', $settings = array('textarea_rows'=>'8') );?>
+				<?php $content = $thankyou_message; wp_editor( $content, 'wcctp_thankyou_message', $settings = array('textarea_rows'=>'8') );?>
+				<p class="description"><?php _e( 'This message will appear below the logo that you upload above.', WCCTP_TEXT_DOMAIN );?></p>
 			</td>
 		</tr>
 
 		<tr>
 			<th scope="row"><label for="thank-you-products"><?php _e( 'Products', WCCTP_TEXT_DOMAIN );?></label></th>
-			<td class="wcctp-tooltips-td">
-				<span data-tip="<?php _e( 'These products you select here will appear after the order details.', WCCTP_TEXT_DOMAIN );?>" class="wcctp-tooltips">
-					<i class="fa fa-info-circle" aria-hidden="true"></i>
-				</span>
-			</td>
 			<td class="wcctp-general-settings-elements-td">
 				<?php if( !empty( $woo_products ) ) {?>
 					<select name="wcctp_thankyou_products[]" id="wcctp-thankyou-products" multiple>
@@ -99,16 +89,12 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 						<?php }?>
 					</select>
 				<?php }?>
+				<p class="description"><?php _e( 'These products you select here will appear after the order details.', WCCTP_TEXT_DOMAIN );?></p>
 			</td>
 		</tr>
 
 		<tr>
 			<th scope="row"><label for="thank-you-social-share"><?php _e( 'Social Share Your Purchase', WCCTP_TEXT_DOMAIN );?></label></th>
-			<td class="wcctp-tooltips-td">
-				<span data-tip="<?php _e( 'Select the social sites where you can share your current purchase.', WCCTP_TEXT_DOMAIN );?>" class="wcctp-tooltips">
-					<i class="fa fa-info-circle" aria-hidden="true"></i>
-				</span>
-			</td>
 			<td class="wcctp-general-settings-elements-td">
 				<?php if( !empty( $social_sites ) ) {?>
 					<?php foreach( $social_sites as $slug => $site ) {?>
@@ -116,6 +102,7 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 						<label for="<?php echo $slug;?>"><?php echo $site;?></label><br />
 					<?php }?>
 				<?php }?>
+				<p class="description"><?php _e( 'Select the social sites where you can share your current purchase.', WCCTP_TEXT_DOMAIN );?></p>
 			</td>
 		</tr>
 	</tbody>

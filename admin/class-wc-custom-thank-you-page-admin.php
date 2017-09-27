@@ -76,7 +76,6 @@ class Wc_Custom_Thank_You_Page_Admin {
 		 * class.
 		 */
 		wp_enqueue_style( 'wcctp-font-awesome', plugin_dir_url( __FILE__ ) . 'css/font-awesome.min.css' );
-		wp_enqueue_style( 'wcctp-qtip-css', plugin_dir_url( __FILE__ ) . 'css/jquery.qtip.css' );
 		wp_enqueue_style( 'wcctp-select2-css', plugin_dir_url( __FILE__ ) . 'css/select2.css' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wc-custom-thank-you-page-admin.css', array(), $this->version, 'all' );
 
@@ -90,18 +89,6 @@ class Wc_Custom_Thank_You_Page_Admin {
 	 */
 	public function wcctp_enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Wc_Custom_Thank_You_Page_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Wc_Custom_Thank_You_Page_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-		wp_enqueue_script( 'wcctp-qtip-js', plugin_dir_url( __FILE__ ) . 'js/jquery.qtip.js' );
 		wp_enqueue_script( 'wcctp-select2-js', plugin_dir_url( __FILE__ ) . 'js/select2.js' );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wc-custom-thank-you-page-admin.js', array( 'jquery' ) );
 
@@ -129,7 +116,6 @@ class Wc_Custom_Thank_You_Page_Admin {
 		?>
 		<div class="wrap">
 			<h2><?php _e( 'Custom Thank You Page - WooCommerce Orders', WCCTP_TEXT_DOMAIN ); ?></h2>
-			<p><?php _e( 'This plugin will allow the site administrator to setup a custom <strong>WooCommerce Thank You Page</strong> and have a lots of site posts to show.', WCCTP_TEXT_DOMAIN ); ?></p>
 			<?php $this->wcctp_plugin_settings_tabs(); ?>
 			<form action="" method="POST" id="<?php echo $tab;?>-settings-form" enctype="multipart/form-data">
 			<?php do_settings_sections( $tab );?>
