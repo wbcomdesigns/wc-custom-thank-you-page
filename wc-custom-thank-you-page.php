@@ -109,6 +109,9 @@ function wcctp_plugin_admin_notice() {
 }
 
 function wcctp_admin_settings_link( $links ) {
-	$settings_link = array( '<a href="'.admin_url('admin.php?page=wc-custom-thank-you-page').'">'.__( 'Settings', WCCTP_TEXT_DOMAIN ).'</a>' );
-	return array_merge( $links, $settings_link );
+	$wcctp_links = array(
+		'<a href="'.admin_url('admin.php?page=wc-custom-thank-you-page').'">'.__( 'Settings', WCCTP_TEXT_DOMAIN ).'</a>',
+		'<a href="https://wbcomdesigns.com/contact/" target="_blank">'.__( 'Support', WCCTP_TEXT_DOMAIN ).'</a>'
+	);
+	return array_merge( $links, $wcctp_links );
 }
