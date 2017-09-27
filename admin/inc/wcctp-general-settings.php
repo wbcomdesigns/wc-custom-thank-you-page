@@ -68,46 +68,48 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 	$thankyou_social_share = $settings['thankyou_social_share'];
 }
 ?>
-<table class="form-table wcctp-admin-page-table">
-	<tbody>
-		<tr>
-			<th scope="row"><label for="thank-you-message"><?php _e( 'Customize Thank You Message', WCCTP_TEXT_DOMAIN );?></label></th>
-			<td class="wcctp-general-settings-elements-td">
-				<?php $content = $thankyou_message; wp_editor( $content, 'wcctp_thankyou_message', $settings = array('textarea_rows'=>'8') );?>
-				<p class="description"><?php _e( 'This message will appear below the logo that you upload above.', WCCTP_TEXT_DOMAIN );?></p>
-			</td>
-		</tr>
+<form action="" method="POST" id="<?php echo $tab;?>-settings-form" enctype="multipart/form-data">
+	<table class="form-table wcctp-admin-page-table">
+		<tbody>
+			<tr>
+				<th scope="row"><label for="thank-you-message"><?php _e( 'Customize Thank You Message', WCCTP_TEXT_DOMAIN );?></label></th>
+				<td class="wcctp-general-settings-elements-td">
+					<?php $content = $thankyou_message; wp_editor( $content, 'wcctp_thankyou_message', $settings = array('textarea_rows'=>'8') );?>
+					<p class="description"><?php _e( 'This message will appear below the logo that you upload above.', WCCTP_TEXT_DOMAIN );?></p>
+				</td>
+			</tr>
 
-		<tr>
-			<th scope="row"><label for="thank-you-products"><?php _e( 'Products', WCCTP_TEXT_DOMAIN );?></label></th>
-			<td class="wcctp-general-settings-elements-td">
-				<?php if( !empty( $woo_products ) ) {?>
-					<select name="wcctp_thankyou_products[]" id="wcctp-thankyou-products" multiple>
-						<option value="">--Select--</option>
-						<?php foreach( $woo_products as $woo_product ) {?>
-							<option value="<?php echo $woo_product->ID;?>" <?php if( !empty( $thankyou_products ) && in_array( $woo_product->ID, $thankyou_products ) ) echo 'selected="selected"';?>><?php echo $woo_product->post_title;?></option>	
-						<?php }?>
-					</select>
-				<?php }?>
-				<p class="description"><?php _e( 'These products you select here will appear after the order details.', WCCTP_TEXT_DOMAIN );?></p>
-			</td>
-		</tr>
-
-		<tr>
-			<th scope="row"><label for="thank-you-social-share"><?php _e( 'Social Share Your Purchase', WCCTP_TEXT_DOMAIN );?></label></th>
-			<td class="wcctp-general-settings-elements-td">
-				<?php if( !empty( $social_sites ) ) {?>
-					<?php foreach( $social_sites as $slug => $site ) {?>
-						<input type="checkbox" name="wcctp_thankyou_social_share[]" class="wcctp-thankyou-social-share" id="<?php echo $slug;?>" value="<?php echo $slug;?>" <?php if( in_array( $slug, $thankyou_social_share ) ) echo 'checked="checked"';?>>
-						<label for="<?php echo $slug;?>"><?php echo $site;?></label><br />
+			<tr>
+				<th scope="row"><label for="thank-you-products"><?php _e( 'Products', WCCTP_TEXT_DOMAIN );?></label></th>
+				<td class="wcctp-general-settings-elements-td">
+					<?php if( !empty( $woo_products ) ) {?>
+						<select name="wcctp_thankyou_products[]" id="wcctp-thankyou-products" multiple>
+							<option value="">--Select--</option>
+							<?php foreach( $woo_products as $woo_product ) {?>
+								<option value="<?php echo $woo_product->ID;?>" <?php if( !empty( $thankyou_products ) && in_array( $woo_product->ID, $thankyou_products ) ) echo 'selected="selected"';?>><?php echo $woo_product->post_title;?></option>	
+							<?php }?>
+						</select>
 					<?php }?>
-				<?php }?>
-				<p class="description"><?php _e( 'Select the social sites where you can share your current purchase.', WCCTP_TEXT_DOMAIN );?></p>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<p class="submit">
-	<?php wp_nonce_field( 'wcctp', 'wcctp-general-settings-nonce'); ?>
-	<input type="submit" name="wcctp_submit_general_settings" class="button button-primary" value="Save Changes">
-</p>
+					<p class="description"><?php _e( 'These products you select here will appear after the order details.', WCCTP_TEXT_DOMAIN );?></p>
+				</td>
+			</tr>
+
+			<tr>
+				<th scope="row"><label for="thank-you-social-share"><?php _e( 'Social Share Your Purchase', WCCTP_TEXT_DOMAIN );?></label></th>
+				<td class="wcctp-general-settings-elements-td">
+					<?php if( !empty( $social_sites ) ) {?>
+						<?php foreach( $social_sites as $slug => $site ) {?>
+							<input type="checkbox" name="wcctp_thankyou_social_share[]" class="wcctp-thankyou-social-share" id="<?php echo $slug;?>" value="<?php echo $slug;?>" <?php if( in_array( $slug, $thankyou_social_share ) ) echo 'checked="checked"';?>>
+							<label for="<?php echo $slug;?>"><?php echo $site;?></label><br />
+						<?php }?>
+					<?php }?>
+					<p class="description"><?php _e( 'Select the social sites where you can share your current purchase.', WCCTP_TEXT_DOMAIN );?></p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<p class="submit">
+		<?php wp_nonce_field( 'wcctp', 'wcctp-general-settings-nonce'); ?>
+		<input type="submit" name="wcctp_submit_general_settings" class="button button-primary" value="Save Changes">
+	</p>
+</form>

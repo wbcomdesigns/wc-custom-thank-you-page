@@ -33,12 +33,21 @@ if( !defined( 'WCCTP_TEXT_DOMAIN' ) ) {
 	define( 'WCCTP_TEXT_DOMAIN', 'wc-custom-thank-you-page' );
 }
 
+//Define constants
+if( !defined( 'WCCTP_PLUGIN_PATH' ) ) {
+	define( 'WCCTP_PLUGIN_PATH', plugin_dir_path(__FILE__) );
+}
+
+if( !defined( 'WCCTP_PLUGIN_URL' ) ) {
+	define( 'WCCTP_PLUGIN_URL', plugin_dir_url(__FILE__) );
+}
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-wc-custom-thank-you-page-activator.php
  */
 function activate_wc_custom_thank_you_page() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wc-custom-thank-you-page-activator.php';
+	require_once WCCTP_PLUGIN_PATH . 'includes/class-wc-custom-thank-you-page-activator.php';
 	Wc_Custom_Thank_You_Page_Activator::activate();
 }
 
@@ -47,18 +56,12 @@ function activate_wc_custom_thank_you_page() {
  * This action is documented in includes/class-wc-custom-thank-you-page-deactivator.php
  */
 function deactivate_wc_custom_thank_you_page() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wc-custom-thank-you-page-deactivator.php';
+	require_once WCCTP_PLUGIN_PATH . 'includes/class-wc-custom-thank-you-page-deactivator.php';
 	Wc_Custom_Thank_You_Page_Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_wc_custom_thank_you_page' );
 register_deactivation_hook( __FILE__, 'deactivate_wc_custom_thank_you_page' );
-
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require plugin_dir_path( __FILE__ ) . 'includes/class-wc-custom-thank-you-page.php';
 
 /**
  * Begins execution of the plugin.
@@ -70,15 +73,11 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wc-custom-thank-you-page.p
  * @since    1.0.0
  */
 function run_wc_custom_thank_you_page() {
-	//Define constants
-	if( !defined( 'WCCTP_PLUGIN_PATH' ) ) {
-		define( 'WCCTP_PLUGIN_PATH', plugin_dir_path(__FILE__) );
-	}
-
-	if( !defined( 'WCCTP_PLUGIN_URL' ) ) {
-		define( 'WCCTP_PLUGIN_URL', plugin_dir_url(__FILE__) );
-	}
-
+	/**
+	 * The core plugin class that is used to define internationalization,
+	 * admin-specific hooks, and public-facing site hooks.
+	 */
+	require WCCTP_PLUGIN_PATH . 'includes/class-wc-custom-thank-you-page.php';
 	$plugin = new Wc_Custom_Thank_You_Page();
 	$plugin->run();
 }
