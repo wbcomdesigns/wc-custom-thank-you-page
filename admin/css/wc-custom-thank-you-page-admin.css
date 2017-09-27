@@ -53,6 +53,9 @@ button.wcctp-accordion.active::after {
   overflow: hidden;
   padding-bottom: 5px;
 }
+.wcctp-tab-header h3{
+  margin-left: 5%;
+}
 .wcctp-header {
   float: left;
   width: 100%;

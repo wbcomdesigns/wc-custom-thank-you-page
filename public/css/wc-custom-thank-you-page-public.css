@@ -57,14 +57,14 @@ textarea.wcctp-share-content {
   border-radius: 4px;
   background-color: #0085ba;
   border: none;
-  color: #FFFFFF;
+  color: #fff !important;
   text-align: center;
   font-size: 16px;
   padding: 5px;
   cursor: pointer;
   margin-top: 7px;
-  width:70px;
-  text-decoration:none!important;
+  width: 70px;
+  text-decoration: none !important;
 }
 .wcctp-share-btn:hover{
     opacity:0.7;
