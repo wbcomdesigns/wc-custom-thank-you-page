@@ -82,15 +82,20 @@ if( isset( $settings['thankyou_social_share'] ) ) {
 			<tr>
 				<th scope="row"><label for="thank-you-products"><?php _e( 'Products', WCCTP_TEXT_DOMAIN );?></label></th>
 				<td class="wcctp-general-settings-elements-td">
-					<?php if( !empty( $woo_products ) ) {?>
+					<?php if( empty( $woo_products ) ) {?>
 						<select name="wcctp_thankyou_products[]" id="wcctp-thankyou-products" multiple>
 							<option value="">--Select--</option>
 							<?php foreach( $woo_products as $woo_product ) {?>
 								<option value="<?php echo $woo_product->ID;?>" <?php if( !empty( $thankyou_products ) && in_array( $woo_product->ID, $thankyou_products ) ) echo 'selected="selected"';?>><?php echo $woo_product->post_title;?></option>	
 							<?php }?>
 						</select>
+						<p class="description"><?php _e( 'These products you select here will appear after the order details.', WCCTP_TEXT_DOMAIN );?></p>
+					<?php } else {?>
+						<p class="description">
+							<?php _e( 'No product to select.', WCCTP_TEXT_DOMAIN );?>
+							<a href="<?php echo admin_url('post-new.php?post_type=product&tutorial=true');?>" target="_blank" title="<?php _e( 'Create your first product.', WCCTP_TEXT_DOMAIN );?>"><?php _e( 'Create your first product.', WCCTP_TEXT_DOMAIN );?></a>
+						</p>
 					<?php }?>
-					<p class="description"><?php _e( 'These products you select here will appear after the order details.', WCCTP_TEXT_DOMAIN );?></p>
 				</td>
 			</tr>
 
