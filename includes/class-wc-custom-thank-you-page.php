@@ -69,7 +69,7 @@ class Wc_Custom_Thank_You_Page {
 	public function __construct() {
 
 		$this->plugin_name = 'wc-custom-thank-you-page';
-		$this->version = '1.0.0';
+		$this->version     = '1.0.0';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -113,6 +113,11 @@ class Wc_Custom_Thank_You_Page {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wc-custom-thank-you-page-admin.php';
 
 		/**
+		 * The class responsible for WBCOM wrpper for plugin pages.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/wbcom/wbcom-admin-settings.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
@@ -150,11 +155,11 @@ class Wc_Custom_Thank_You_Page {
 
 		$plugin_admin = new Wc_Custom_Thank_You_Page_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		if( stripos( $_SERVER['REQUEST_URI'], 'wc-custom-thank-you-page' ) !== false ) {
+		if ( stripos( $_SERVER['REQUEST_URI'], 'wc-custom-thank-you-page' ) !== false ) {
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'wcctp_enqueue_styles' );
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'wcctp_enqueue_scripts' );
 		}
-		
+
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wcctp_add_sub_menu_page' );
 
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'wcctp_register_general_settings' );

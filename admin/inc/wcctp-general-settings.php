@@ -69,7 +69,8 @@ if ( isset( $settings['thankyou_social_share'] ) ) {
 	$thankyou_social_share = $settings['thankyou_social_share'];
 }
 ?>
-<form action="" method="POST" id="<?php echo $tab; ?>-settings-form" enctype="multipart/form-data">
+<div class="wbcom-tab-content">
+<form action="" method="POST" id="-settings-form" enctype="multipart/form-data">
 	<table class="form-table wcctp-admin-page-table">
 		<tbody>
 			<tr>
@@ -132,3 +133,4 @@ if ( isset( $settings['thankyou_social_share'] ) ) {
 		<input type="submit" name="wcctp_submit_general_settings" class="button button-primary" value="Save Changes">
 	</p>
 </form>
+</div>
