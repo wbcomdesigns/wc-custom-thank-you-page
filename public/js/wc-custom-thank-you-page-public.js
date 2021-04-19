@@ -26,13 +26,6 @@ jQuery(document).ready(function($){
 		window.open( tweet_url, 500, 500 );
 	});
 
-	//Purchase share on google plus
-	$(document).on('click', '#wcctp-share-google-plus', function(){
-		var summary = $('#wcctp-purchase-share-google-plus').val();
-		var share_url = 'https://plus.google.com/share?text='+summary;
-		window.open( share_url, 500, 500 );
-	});
-
 	$('.wcctp-thank-you-products-display').bxSlider({
 		mode: 'horizontal',
 		moveSlides: 1,

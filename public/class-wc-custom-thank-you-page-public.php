@@ -159,10 +159,6 @@ class Wc_Custom_Thank_You_Page_Public {
 					<?php if( in_array( 'wcctp-twitter', $thankyou_social_share) ) {?>
 						<li class="tab-link" data-tab="tab-2">Twitter</li>
 					<?php }?>
-
-					<?php if( in_array( 'wcctp-google-plus', $thankyou_social_share) ) {?>
-						<li class="tab-link" data-tab="tab-3">Google Plus</li>
-					<?php }?>
 				</ul>
 
 				<?php if( in_array( 'wcctp-facebook', $thankyou_social_share) ) {?>
@@ -178,13 +174,7 @@ class Wc_Custom_Thank_You_Page_Public {
 						<a href="javascript:void(0);" class="wcctp-share-btn" id="wcctp-tweet-twitter"><?php _e( 'Tweet', WCCTP_TEXT_DOMAIN );?></a>
 					</div>
 				<?php }?>
-
-				<?php if( in_array( 'wcctp-google-plus', $thankyou_social_share) ) {?>
-					<div id="tab-3" class="tab-content">
-						<textarea rows="8" placeholder="<?php _e( 'Write something about your purchase...', WCCTP_TEXT_DOMAIN );?>" id="wcctp-purchase-share-google-plus" class="wcctp-share-content"></textarea>
-						<a href="javascript:void(0);" class="wcctp-share-btn" id="wcctp-share-google-plus"><?php _e( 'Share', WCCTP_TEXT_DOMAIN );?></a>
-					</div>
-				<?php }?>
+				
 			</div><!-- container -->
 			<?php
 		}
